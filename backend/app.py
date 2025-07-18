@@ -14,7 +14,7 @@ load_dotenv()
 port = int(os.getenv("PORT"))
 
 #AGREGAR TRY/RAISE ERROR con un mensaje
-
+#TODO
 Base.metadata.create_all(bind=engine)
 
 

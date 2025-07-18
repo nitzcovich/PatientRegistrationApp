@@ -2,6 +2,11 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Card from 'primevue/card';
 
+import Accordion from 'primevue/accordion';
+import AccordionPanel from 'primevue/accordionpanel';
+import AccordionHeader from 'primevue/accordionheader';
+import AccordionContent from 'primevue/accordioncontent';
+
 export default {
   name: 'PatientRegistry',
   data() {
@@ -13,36 +18,47 @@ export default {
   components:{
     DataTable,
     Column,
-    Card
+    Card,
+    Accordion,
+    AccordionPanel,
+    AccordionHeader,
+    AccordionContent
   },
   template: `
     <section class="table-section">
       <h2 class="title">Patients</h2>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card
-          v-for="patient in patients"
-          :key="patient.id"
-          class="patient-card"
-        >
-          <template #header>
-            <div class="card-header">
+  <section class="accordion-section">
+    <Accordion :multiple="true">
+      <AccordionPanel
+        v-for="(patient, index) in patients"
+        :key="index"
+        :value="index"
+      >
+          <AccordionHeader>
               <img
                 v-if="patient.file"
                 :src="'data:image/jpg;base64,' + patient.file"
                 alt="Profile Picture"
                 class="profile-image"
               />
-              <div class="card-title">{{ patient.name }} {{ patient.lastname }}</div>
+            <span>
+              <span>
+                {{ patient.name }} {{ patient.lastname }}
+              </span>
+            </span>
+          </AccordionHeader>
+          <AccordionContent>
+            <div class="text-sm text-gray-700">
+              <p><u> <i> Contact information </i></u> </p>
+              <p><strong>Email:</strong> {{ patient.email }}</p>
+              <p><strong>Phone:</strong> {{ patient.phone }}</p>
             </div>
-          </template>
+          </AccordionContent>
+        </AccordionPanel>
+      </Accordion>
+    </section>
 
-          <template #content>
-            <p><strong>Email:</strong> {{ patient.email }}</p>
-            <p><strong>Phone:</strong> {{ patient.phone }}</p>
-          </template>
-        </Card>
-      </div>
     </section>
   `,
   mounted() {
