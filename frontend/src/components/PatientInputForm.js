@@ -1,9 +1,6 @@
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
-import InputGroup from 'primevue/inputgroup';
-import InputGroupAddon from 'primevue/inputgroupaddon';
-import IconField from 'primevue/iconfield';
-import InputIcon from 'primevue/inputicon';
+
 
 export default {
   name: 'PatientInputForm',
@@ -13,23 +10,37 @@ export default {
         name: '',
         lastname:'',
         email: '',
-        phone: null
+        phone: null,
+        file: null,
+        filename:"",
+        filetype:""
       }
     };
   },
   components:{
     InputText,
-    Button,
-    InputGroup,
-    InputGroupAddon,
-    IconField,
-    InputIcon
+    Button
   },
   methods: {
+    handleFileChange(event) {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            this.form.file = selectedFile;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    // reader.result is a base64 data URI: "data:<mime>;base64,<data>"
+                    // We want only the base64 part after comma
+                    this.form.file = reader.result.split(',')[1];
+                    this.form.filename = selectedFile.name;
+                    this.form.filetype = selectedFile.type; 
+                };
+                reader.readAsDataURL(selectedFile);
+                }
+    },
     async submitForm() {
-      const { name, lastname, email, phone } = this.form;
+      const { name, lastname, email, phone, file } = this.form;
 
-      if (!name || !lastname ||!email || !phone) {
+      if (!name || !lastname ||!email || !phone || !file) {
         alert('Please complete all fields');
         return;
       }
@@ -44,7 +55,7 @@ export default {
 
         if (!res.ok) throw new Error('Submission failed');
 
-        this.form = { name: '', lastname:'', email: '', phone: null };
+        this.form = { name: '', lastname:'', email: '', phone: null , file: null};
         this.$emit('registered');  // Notify parent to refresh list
       } catch (err) {
         console.error(err);
@@ -74,6 +85,13 @@ export default {
           <InputText id="phone" v-model="form.phone" class="form-input" placeholder="15-1111-1111" variant="filled"/>
           <label for="phone">Phone</label>
         </div>
+
+        <!--File input -->
+        <div class="p-field p-col-12">
+          <input type="file" @change="handleFileChange" />
+          <label v-if="form.file">Selected file: {{ form.filename }}</label>
+        </div>
+
         <br/>
         <div class="p-col-12">
           <Button label="Add Patient" @click="submitForm" />

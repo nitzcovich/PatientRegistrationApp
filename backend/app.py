@@ -3,6 +3,7 @@ from wsgiref.simple_server import make_server
 import falcon
 from dotenv import load_dotenv
 import os
+import base64
 
 from db import SessionLocal, engine
 from models import Base, Patient
@@ -38,14 +39,18 @@ class PatientRegistrationResource:
             lastname = req.media.get("lastname")
             email = req.media.get("email")
             phone = req.media.get("phone")
+            file = req.media.get("file")
 
-            # print(f"Received: name={name}, lastname={lastname}, email={email}, phone={phone}")
+            # print(f"Received: name={name}, lastname={lastname}, email={email}, phone={phone}, file={file}")
+
+            document_binary = base64.b64decode(file)
 
             new_patient = Patient(
                 name=name,
                 lastname=lastname,
                 phone=phone,
-                email=email
+                email=email,
+                document_photo=document_binary
             )
 
             db.add(new_patient)
@@ -72,12 +77,16 @@ class PatientRegistrationResource:
             results = []
 
             for p in patients:
+                document_base64 = None
+                if p.document_photo:
+                    document_base64 = base64.b64encode(p.document_photo).decode("utf-8")
                 results.append({
                     "id": p.id,
                     "name": p.name,
                     "lastname":p.lastname,
                     "email": p.email,
-                    "phone": p.phone
+                    "phone": p.phone,
+                    "file": document_base64
                 })
             
             # resp.set_header("Access-Control-Allow-Origin", "http://localhost:5173")
