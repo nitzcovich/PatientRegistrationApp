@@ -28,6 +28,9 @@ export default {
         <div v-if="loading" style="display:flex">
           <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="4" />
         </div>
+        <div v-else-if="patients.length==0">
+          <strong><i>The patient list is currently empty. Please add a new patient to get started.</i></strong>
+        </div>
         <Accordion v-else :multiple="true">
           <AccordionPanel
             v-for="(patient, index) in patients"
