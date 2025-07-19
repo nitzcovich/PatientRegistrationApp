@@ -11,10 +11,9 @@ from models import Base, Patient
 #load environment variables from .env file
 load_dotenv()
 
+#TODO raise error if keys are not present
 port = int(os.getenv("PORT"))
 
-#AGREGAR TRY/RAISE ERROR con un mensaje
-#TODO
 Base.metadata.create_all(bind=engine)
 
 
@@ -59,6 +58,8 @@ class PatientRegistrationResource:
             resp.status = falcon.HTTP_201
             resp.content_type = falcon.MEDIA_JSON
             resp.media = {"message": "Patient registered successfully"}
+
+            #TODO Integrate Email service to notify patient
         
         except Exception as db_error:
             db.rollback()
