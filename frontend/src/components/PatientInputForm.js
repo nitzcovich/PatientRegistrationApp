@@ -3,8 +3,6 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog';
 import Message from 'primevue/message';
 
-
-
 export default {
   name: 'PatientInputForm',
   data() {
@@ -30,7 +28,8 @@ export default {
             name: "",
             lastname: "",
             file: ""
-        }
+        },
+        fileInputKey: 0,
     };
   },
   components:{
@@ -94,8 +93,7 @@ export default {
             this.form.file = selectedFile;
                 const reader = new FileReader();
                 reader.onload = () => {
-                    // reader.result is a base64 data URI: "data:<mime>;base64,<data>"
-                    // We want only the base64 part after comma
+
                     this.form.file = reader.result.split(',')[1];
                     this.form.filename = selectedFile.name;
                     this.form.filetype = selectedFile.type; 
@@ -138,6 +136,7 @@ export default {
         this.form = { name: '', lastname:'', email: '', code: null, phone: null , file: null};
         this.visible = true
         this.msg_status = "New patient registration successfully completed"
+        this.fileInputKey++
         this.$emit('registered'); 
       } catch (err) {
         this.visible = true
@@ -180,14 +179,14 @@ export default {
         </div>
 
         <div class="file-upload">
-            <label for="file">Upload Document</label>
-            <input type="file" id="file" @change="handleFileChange" class="custom-file-input" />
+
+            <input type="file" id="file" @change="handleFileChange" :key="fileInputKey" />
             <Message v-if="invalid_file" severity="error" size="small" variant="simple">{{ val_errors.file}}</Message>
             <p v-if="form.filename" class="file-name"> {{ form.filename }}</p>
         </div>
 
         <div>
-            <Button label="Add Patient" @click="submitForm" class="p-button-success" />
+            <Button label="Add Patient" @click="submitForm" severity="info"/>
         </div>
         </div>
 

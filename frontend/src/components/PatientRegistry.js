@@ -1,7 +1,4 @@
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
 import Card from 'primevue/card';
-
 import Accordion from 'primevue/accordion';
 import AccordionPanel from 'primevue/accordionpanel';
 import AccordionHeader from 'primevue/accordionheader';
@@ -16,8 +13,6 @@ export default {
     };
   },
   components:{
-    DataTable,
-    Column,
     Card,
     Accordion,
     AccordionPanel,
