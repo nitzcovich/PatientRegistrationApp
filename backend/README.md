@@ -4,7 +4,8 @@ docker run --name my-sql -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword
 
 
 ## BACKEND SETUP
-#### DOCKER RUN
 
+```bash
 docker build -t backend .
 docker run -it -p 3000:3000 -e POSTGRES_DB_URL=postgresql://myuser:mypassword@host.docker.internal:5432/mydatabase -e PORT=3000 backend
+```
