@@ -7,7 +7,7 @@
 - Each of these folders has a README file with instructions to build and run the Docker image.
 
 #### Considerations:
-- The email service is pending.
+- The email service not implemented yet.
 
 ## PostgreSQL setup
 ```bash
@@ -34,3 +34,5 @@ cd frontend/
 docker build --build-arg VITE_API_BASE_URL="http://localhost:3000" -t frontend .
 docker run -it -p 5173:3000 frontend
 ```
+
+Open http://localhost:5173/
