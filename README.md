@@ -7,7 +7,9 @@
 - Each of these folders has a README file with instructions to build and run the Docker image.
 
 #### Considerations:
-- The email service not implemented yet.
+- Backend: Falcon Framework
+- Frontend: Vue.js and PrimeVue
+- The email sender not implemented yet.
 
 ## PostgreSQL setup
 ```bash
