@@ -23,11 +23,6 @@ class CORSMiddleware:
         resp.set_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         resp.set_header("Access-Control-Allow-Headers", "Content-Type")
 
-    # def process_response(self, req, resp, resource, req_succeeded):
-    #     # For preflight requests
-    #     if req.method == "OPTIONS":
-    #         resp.status = falcon.HTTP_200
-
 class PatientRegistrationResource:
 
     def on_post(self, req, resp):
@@ -90,7 +85,7 @@ class PatientRegistrationResource:
                     "file": document_base64
                 })
             
-            # resp.set_header("Access-Control-Allow-Origin", "http://localhost:5173")
+            
             resp.media = results
             resp.status = falcon.HTTP_200
         
