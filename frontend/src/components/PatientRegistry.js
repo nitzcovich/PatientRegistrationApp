@@ -3,6 +3,7 @@ import Accordion from 'primevue/accordion';
 import AccordionPanel from 'primevue/accordionpanel';
 import AccordionHeader from 'primevue/accordionheader';
 import AccordionContent from 'primevue/accordioncontent';
+import ProgressSpinner from 'primevue/progressspinner';
 
 export default {
   name: 'PatientRegistry',
@@ -17,19 +18,22 @@ export default {
     Accordion,
     AccordionPanel,
     AccordionHeader,
-    AccordionContent
+    AccordionContent,
+    ProgressSpinner
   },
   template: `
     <section class="table-section">
       <h2 class="title">Patients</h2>
-
-  <section class="accordion-section">
-    <Accordion :multiple="true">
-      <AccordionPanel
-        v-for="(patient, index) in patients"
-        :key="index"
-        :value="index"
-      >
+    <section class="accordion-section">
+        <div v-if="loading" style="display:flex">
+          <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="4" />
+        </div>
+        <Accordion v-else :multiple="true">
+          <AccordionPanel
+            v-for="(patient, index) in patients"
+            :key="index"
+            :value="index"
+          >
           <AccordionHeader>
               <img
                 v-if="patient.file"
